@@ -11,7 +11,9 @@
   "author": "Kaan Yurdakoş <kaanyurdakosx@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "colors": "^1.4.0"
+    "colors": "^1.4.0",
+    "flatted": "^3.2.7",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.22"

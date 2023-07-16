@@ -1,12 +1,15 @@
 const FollowUp = require('./follow_up')
+const uuid = require('uuid')
 
 class User {
-    constructor(name) {
+    constructor(id = uuid.v4(), name = [], tweets = [], following = [], follower = [], follow_ups = []) {
+        this.id = id
+
         this.name = name
-        this.tweets = []
-        this.following = []
-        this.follower = []
-        this.follow_ups = []
+        this.tweets = tweets
+        this.following = following
+        this.follower = follower
+        this.follow_ups = follow_ups
     }
 
     toTweet(tweet) {
@@ -21,6 +24,10 @@ class User {
         followedUser.follow_ups.push(follow_up)
 
         return follow_up
+    }
+
+    static create({id, name, tweets, following, follower, follow_ups}) {
+        return new User(id, name, tweets, following, follower, follow_ups)
     }
 }
 
