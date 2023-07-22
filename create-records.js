@@ -21,14 +21,22 @@ kaan.toTweet(tweet1)
 kaan.toTweet(tweet2)
 deniz.toTweet(tweet2)
 
-userDatabase.save([kaan, kegri, deniz])
-tweetDatabase.save([tweet1, tweet2])
+async function main() {
+    try {
+        await userDatabase.save([kaan, kegri, deniz])
+        await tweetDatabase.save([tweet1, tweet2])
 
-const tolga = User.create({name: 'Tolga'})
+        const tolga = User.create({name: 'Tolga'})
 
-userDatabase.insert(tolga)
+        await userDatabase.insert(tolga)
 
-const users = userDatabase.load()
+        const users = await userDatabase.load()
 
-users.forEach(printFollowUpHistory)
-users.forEach(printUserTweets)
+        users.forEach(printFollowUpHistory)
+        users.forEach(printUserTweets)
+    } catch (e) {
+        return console.log(e)
+    }
+}
+
+main ()
