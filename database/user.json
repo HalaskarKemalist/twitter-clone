@@ -31,47 +31,145 @@
   "following": "26",
   "follower": "27",
   "follow_ups": "28"
-},"28314de0-c1ce-4fe1-a4e9-1bc0e272b7e9","Kaan",[
+},"effb4431-8904-46c9-958a-64a91ffdc27b","Kaan",[
   "29",
   "30"
 ],[
   "31"
 ],[
   "32",
-  "31"
-],[
-  "33",
-  "34",
-  "35"
-],"857d0f91-d2c1-4799-a3d2-96ea9ec36c3a","Kegri",[],[
-  "36"
-],[],[
+  "31",
   "33"
-],"2a392278-3050-4a06-8ac5-53a23ad13b6b","Deniz",[
-  "30"
-],[
-  "36"
-],[
-  "36"
 ],[
   "34",
-  "35"
-],"f931f352-29bf-411b-a97f-6475a2fc6f5d","Tolga",[],[],[],[],{
-  "id": "37",
-  "text": "38",
+  "35",
+  "36",
+  "37"
+],"67542299-2594-405a-a05c-7ee0900f3762","Kegri",[],[
+  "38"
+],[],[
+  "39"
+],"2d3a228e-504f-40da-adbc-519133190735","Deniz",[
+  "40"
+],[
+  "38"
+],[
+  "38"
+],[
+  "41",
+  "42"
+],"34d97cbb-7946-4847-afc7-c348bdb363ed","Tolga",[],[
+  "43"
+],[],[
+  "44"
+],{
+  "id": "45",
+  "text": "46",
   "like": 0
 },{
-  "id": "39",
-  "text": "40",
+  "id": "47",
+  "text": "48",
   "like": 0
 },{
   "id": "17",
   "name": "18",
-  "tweets": "19",
-  "following": "20",
-  "follower": "21",
-  "follow_ups": "22"
+  "tweets": "49",
+  "following": "50",
+  "follower": "51",
+  "follow_ups": "52"
 },{
+  "id": "11",
+  "name": "12",
+  "tweets": "53",
+  "following": "54",
+  "follower": "55",
+  "follow_ups": "56"
+},{
+  "id": "23",
+  "name": "24",
+  "tweets": "57",
+  "following": "58",
+  "follower": "59",
+  "follow_ups": "60"
+},{
+  "followedUser": "61",
+  "user": "32"
+},{
+  "followedUser": "61",
+  "user": "31"
+},{
+  "followedUser": "31",
+  "user": "61"
+},{
+  "followedUser": "1",
+  "user": "33"
+},{
+  "id": "5",
+  "name": "6",
+  "tweets": "62",
+  "following": "63",
+  "follower": "64",
+  "follow_ups": "65"
+},{
+  "followedUser": "38",
+  "user": "66"
+},{
+  "id": "47",
+  "text": "48",
+  "like": 0
+},{
+  "followedUser": "38",
+  "user": "67"
+},{
+  "followedUser": "67",
+  "user": "38"
+},{
+  "id": "5",
+  "name": "6",
+  "tweets": "68",
+  "following": "69",
+  "follower": "70",
+  "follow_ups": "71"
+},{
+  "followedUser": "43",
+  "user": "72"
+},"9bf98eec-cef0-4529-ad20-d8b6f2c694fa","Hi 1","b8396066-d407-4697-b351-52254aeb4650","Hi 2",[
+  "30"
+],[
+  "61"
+],[
+  "61"
+],[
+  "35",
+  "36"
+],[],[
+  "61"
+],[],[
+  "34"
+],[],[
+  "1"
+],[],[
+  "37"
+],{
+  "id": "5",
+  "name": "6",
+  "tweets": "7",
+  "following": "8",
+  "follower": "9",
+  "follow_ups": "10"
+},[
+  "73",
+  "40"
+],[
+  "67"
+],[
+  "66",
+  "67"
+],[
+  "39",
+  "41",
+  "42"
+],{
   "id": "11",
   "name": "12",
   "tweets": "13",
@@ -79,19 +177,86 @@
   "follower": "15",
   "follow_ups": "16"
 },{
-  "followedUser": "36",
-  "user": "32"
+  "id": "17",
+  "name": "18",
+  "tweets": "19",
+  "following": "20",
+  "follower": "21",
+  "follow_ups": "22"
+},[
+  "74",
+  "75"
+],[
+  "76"
+],[
+  "77",
+  "76",
+  "72"
+],[
+  "78",
+  "79",
+  "80",
+  "44"
+],{
+  "id": "23",
+  "name": "24",
+  "tweets": "25",
+  "following": "26",
+  "follower": "27",
+  "follow_ups": "28"
 },{
-  "followedUser": "36",
-  "user": "31"
+  "id": "45",
+  "text": "46",
+  "like": 0
 },{
-  "followedUser": "31",
-  "user": "36"
+  "id": "45",
+  "text": "46",
+  "like": 0
 },{
+  "id": "47",
+  "text": "48",
+  "like": 0
+},{
+  "id": "17",
+  "name": "18",
+  "tweets": "81",
+  "following": "82",
+  "follower": "83",
+  "follow_ups": "84"
+},{
+  "id": "11",
+  "name": "12",
+  "tweets": "85",
+  "following": "86",
+  "follower": "87",
+  "follow_ups": "88"
+},{
+  "followedUser": "89",
+  "user": "77"
+},{
+  "followedUser": "89",
+  "user": "76"
+},{
+  "followedUser": "76",
+  "user": "89"
+},[
+  "75"
+],[
+  "89"
+],[
+  "89"
+],[
+  "79",
+  "80"
+],[],[
+  "89"
+],[],[
+  "78"
+],{
   "id": "5",
   "name": "6",
-  "tweets": "7",
-  "following": "8",
-  "follower": "9",
-  "follow_ups": "10"
-},"ff91d589-234f-45c8-93da-fb69b0456f99","Hi 1","ae5ee704-d4f4-4d00-87e1-dd54808c0cd1","Hi 2"]
+  "tweets": "68",
+  "following": "69",
+  "follower": "70",
+  "follow_ups": "71"
+}]

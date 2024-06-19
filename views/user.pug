@@ -1,0 +1,12 @@
+extends layout
+block content
+    h2 User Detail
+    p #{user.name}
+
+    p Follow-up History
+    if user.follow_ups.length
+        ol
+            each follow_up in user.follow_ups
+                li #{follow_up.user.name} followed #{follow_up.followedUser.name}
+    else
+        p No followings or followers

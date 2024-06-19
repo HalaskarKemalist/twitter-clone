@@ -1,19 +1,16 @@
-const userDatabase = require('./database/user-database')
-const printFollowUpHistory = require('./lib/print-follow-up-history')
+const express = require('express')
+const bodyParser = require('body-parser')
+const usersRouter = require('./routes/users')
+const indexRouter = require('./routes/index')
 
-async function main() {
-    const tolga = await userDatabase.findBy('name', 'Tolga')
-    const kaan = await userDatabase.findByName('Kaan')
+const app = express()
+app.use(bodyParser.json())
 
-    
-    tolga.toFollow(kaan)
+app.set('view engine', 'pug')
 
-    userDatabase.update(kaan)
-    userDatabase.update(tolga)
-    
-    printFollowUpHistory(kaan)
-    console.log('-------')
-    printFollowUpHistory(tolga)
-}
+app.use('/users', usersRouter)
+app.use('/', indexRouter)
 
-main()
+app.listen(3001, () => {
+    console.log('started listening Twitter on 3001')
+})
