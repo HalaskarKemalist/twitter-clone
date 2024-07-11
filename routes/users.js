@@ -1,31 +1,37 @@
-const { userDatabase } = require('../database')
-const flatted = require('flatted')
+const { userService } = require('../services')
 
 const router = require('express').Router()
 
 router.get('/', async (req, res) => {
-    const users = await userDatabase.load()
-    //res.send(flatted.stringify(users))
+    const users = await userService.load()
 
     res.render('users', { users })  
 })
 
+router.get('/:userId', async (req, res) => {
+    const user = await userService.find(req.params.userId)
+
+    if (!user) return res.status('404').send('Cannot find user')
+    res.render('user', { user })
+})
+
 router.post('/', async (req, res) => {
-    const user = await userDatabase.insert(req.body)
+    const user = await userService.insert(req.body)
 
     res.send(user)
 })
 
 router.delete('/:userId', async (req, res) => {
-    await userDatabase.removeBy('id', req.params.userId)
+    await userService.removeBy('_id', req.params.userId)
 
     res.send('OK')
 })
 
-router.get('/:userId', async (req, res) => {
-    const user = await userDatabase.find(req.params.userId)
-    if (!user) return res.status('404').send('Cannot find user')
-    res.render('user', { user })
+router.patch('/:userId', async (req, res) => {
+    const { userId } = req.params
+    const { name } = req.body
+
+    await userService.update(userId, { name })
 })
 
 router.post('/:userId/following', async (req, res) => {
@@ -33,15 +39,14 @@ router.post('/:userId/following', async (req, res) => {
     const { userId } = req.params
     const { user2Id } = req.body
 
-    const user = await userDatabase.find(userId)
-    const user2 = await userDatabase.find(user2Id)
+    // const user = await userService.find(userId)
+    // const user2 = await userService.find(user2Id)
 
-    user.toFollow(user2)
+    const result = await userService.follow(userId, user2Id)
+    // await userService.update(user)
+    // await userService.update(user2)
 
-    await userDatabase.update(user)
-    await userDatabase.update(user2)
-
-    res.send('OK')
+    res.send(result)
 })
 
-module.exports = router
+module.exports = router;
