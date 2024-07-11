@@ -1,34 +1,60 @@
-const FollowUp = require('./follow_up')
-const uuid = require('uuid')
+const mongoose = require('mongoose');
+const autopopulate = require('mongoose-autopopulate');
 
-class User {
-    constructor(id = uuid.v4(), name = [], tweets = [], following = [], follower = [], follow_ups = []) {
-        this.id = id
+const userSchema = new mongoose.Schema  ({
+    name: {
+        type: String,
+        required: true,
+    },
+    handle: {
+        type: String,
+        required: true,
+        unique: true,
+    },
+    profilePicture: {
+        type: String,
+        default: '',
+    },
+    email: {
+        type: String,
+        required: true,
+        unique: true,
+    },
+    bio: {
+        type: String,
+        default: '',
+    },
+    location: {
+        type: String,
+        default: '',
+    },
+    website: {
+        type: String,
+        default: '',
+    },
+    followers: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        autopopulate: { maxDepth: 1 },
+    }],
+    following: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        autopopulate: { maxDepth: 1 },
+    }],
+    likedTweets: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Tweet',
+    }],
+    tweets: [{
+        type: mongoose.Schema.Types.ObjectId,
+    }],
+    
+},
+{ timestamps: true }
+);
 
-        this.name = name
-        this.tweets = tweets
-        this.following = following
-        this.follower = follower
-        this.follow_ups = follow_ups
-    }
+userSchema.plugin(autopopulate);
 
-    toTweet(tweet) {
-        this.tweets.push(tweet)
-    }
-
-    toFollow(followedUser) {
-        const follow_up = new FollowUp(followedUser, this)
-        this.following.push(followedUser)
-        followedUser.follower.push(this)
-        this.follow_ups.push(follow_up)
-        followedUser.follow_ups.push(follow_up)
-
-        return follow_up
-    }
-
-    static create({id, name, tweets, following, follower, follow_ups}) {
-        return new User(id, name, tweets, following, follower, follow_ups)
-    }
-}
-
-module.exports = User
+module.exports = mongoose.models.User || mongoose.model('User', userSchema);
+//module.exports = mongoose.model('User', userSchema)
