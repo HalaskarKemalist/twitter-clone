@@ -73,9 +73,9 @@ Content-Type: application/json
 
 
 
-POST http://localhost:3001/users/66901321a0e61c6a1c59e021/following HTTP/1.1
+POST http://localhost:3001/users/669012fca0e61c6a1c59e01c/following HTTP/1.1
 Content-Type: application/json
 
-{ "user2Id":"669012fca0e61c6a1c59e01c"}
+{ "user2Id":"66901312a0e61c6a1c59e01f"}
 
 // following
