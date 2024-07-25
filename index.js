@@ -15,6 +15,4 @@ app.use('/users', usersRouter)
 app.use('/tweets', tweetsRouter)
 app.use('/', indexRouter)
 
-app.listen(3001, () => {
-    console.log('started listening Twitter on 3001')
-})
+module.exports = app
