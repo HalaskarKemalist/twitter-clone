@@ -14,7 +14,7 @@ GET http://localhost:3001/users/667c61f44cc535ede34e6644 HTTP/1.1
 POST http://localhost:3001/users HTTP/1.1
 Content-Type: application/json
 
-{ "name":"Aslan", "handle":"aslan", "email":"aslan@nimble.dev" }
+{ "name":"Armagan", "handle":"dashersw", "email":"armagan@nimble.dev" }
 // create user
 
 ###
