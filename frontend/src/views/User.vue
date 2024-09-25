@@ -1,8 +1,14 @@
 <script>
 import { mapActions } from 'vuex'
+import composeTweetComponent from '../components/compose-tweet-component.vue'
+import tweetCardComponent from '../components/tweet-card-component.vue'
 
 export default {
   name: 'UserView',
+  components: {
+    composeTweetComponent,
+    tweetCardComponent
+  },
   data () {
     return {
       isLoading: true,
@@ -64,6 +70,8 @@ export default {
             h3 Users
             ol
                 li(v-for="user2 in users")
-                  | {{ user2.name }}
+                  | {{ user2.name }} &nbsp;
                   button.followUser(@click="followUser2AndUpdateUser({userId: user._id, user2Id: user2._id})") Follow user
+composeTweetComponent
+tweetCardComponent
 </template>

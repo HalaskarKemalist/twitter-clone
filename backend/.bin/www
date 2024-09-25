@@ -1,0 +1,50 @@
+
+
+/*
+*   Module dependencies.
+*/
+
+const app = require('../')
+var http = require('http')
+const cors = require('cors')
+/*
+*   Get port from environment and store in Express.
+*/
+app.use(cors())
+var port = process.env.PORT || 3000;
+app.set('port', port)
+
+/*
+*   Create HTTP server.
+*/
+
+var server = http.createServer(app);
+
+require('../socket-connection')(app, server)
+
+/*
+*   Listen on provided port, on all network interfaces.
+*/
+
+server.listen(port)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// app.listen(3001, () => {
+//     console.log('started listening Twitter on 3001')
+// })

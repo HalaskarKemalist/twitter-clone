@@ -1,32 +1,46 @@
+/* // import { createApp } from 'vue'
 import { createStore } from 'vuex'
 import axios from 'axios'
 
-axios.defaults.baseURL = 'http://localhost:3001'
+import account from './account'
+import tweets from './tweets'
 
-export default createStore({
-  state: {
-  },
-  getters: {
-  },
-  mutations: {
-  },
-  actions: {
-    async fetchUsers () {
-      const request = await axios.get('/users')
-      return request.data
-    },
-    async fetchUser ({ state }, userId) {
-      const request = await axios.get(`/users/${userId}`)
-      return request.data
-    },
-    async followUser ({ dispatch }, { userId, user2Id }) {
-      const request = await axios.post(`/users/${userId}/following`, {
-        user2Id
-      })
+// Vue.use(Vuex)
 
-      return request.data
-    }
-  },
+axios.defaults.baseURL = process.env.VUE_APP_BASE_PATH
+axios.defaults.withCredentials = true
+
+const store = createStore({
   modules: {
+    account,
+    tweets
   }
 })
+
+export default async function init () {
+  await store.dispatch('account/init')
+  await store.dispatch('tweets/init')
+  console.log('init e girdi')
+  console.log('State after init:', store.state)
+  console.log('modules after init:', store.modules)
+  return store
+} */
+
+// src/store/index.js
+// import Vue from 'vue'
+import Vuex from 'vuex'
+import account from './account'
+import tweets from './tweets'
+
+// Vue.use(Vuex)
+
+const store = new Vuex.Store({
+  modules: {
+    account,
+    tweets
+  },
+  strict: process.env.NODE_ENV !== 'production' // Enables strict mode in development
+})
+
+// Optional: Initialize any state if needed
+export default store

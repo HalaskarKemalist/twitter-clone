@@ -1,6 +1,0 @@
-extends layout
-block content
-    h2 Tweet Detail
-    a(href=`/users/${tweet.author.id}`) #{tweet.author.name}
-    p #{tweet.body}
-    p tweeted at: #{tweet.createdAt}
