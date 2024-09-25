@@ -1,5 +1,0 @@
-const app = require('../')
-
-app.listen(3001, () => {
-    console.log('started listening Twitter on 3001')
-})
