@@ -28,7 +28,7 @@ const account = {
   actions: {
     async [actions.INIT] ({ dispatch }) {
       await dispatch(actions.FETCH_USER)
-      console.log('account store Initialized')
+      console.log('account store Initialized', this.user)
     },
     async [actions.REGISTER_USER] (store, user) {
       console.log('actiona geldi')

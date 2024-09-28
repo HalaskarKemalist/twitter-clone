@@ -16,7 +16,7 @@ export default {
 </script>
 
 <template>
-    <v-card class="profile-card" elevation="3" height="550">
+    <v-card class="profile-card" height="550">
         <v-img
             class="align-end text-white"
             height="200"

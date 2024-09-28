@@ -1,6 +1,6 @@
 <template>
   <v-app style="background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);">
-    <v-navigation-drawer v-if="showLayout" class="navigation" location="left" elevation="3" app>
+    <v-navigation-drawer v-if="showLayout" width="400" app>
       <v-list-item height="50" prepend-icon="mdi-home-outline" link title="Home"></v-list-item>
       <v-list-item disabled height="50" prepend-icon="mdi-magnify" link title="Explore"></v-list-item>
       <v-list-item height="50" prepend-icon="mdi-bell-outline" link title="Notifications"></v-list-item>
@@ -27,26 +27,13 @@
       </v-banner>
     </v-navigation-drawer>
 
-    <v-main no-gutters permanent app>
+    <v-navigation-drawer v-if="showLayout" class="navigation" location="right" width="520" permanent app>
+      <userToFollowComponent />
+    </v-navigation-drawer>
+
+    <v-main class="d-flex justify-center" permanent app>
       <RouterView style="background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);"/>
     </v-main>
-
-    <!-- <v-navigation-drawer v-if="showLayout" class="navigation" location="right" elevation="3" app>
-      <v-list-item height="50" prepend-icon="mdi-home-outline" link title="Home Right"></v-list-item>
-      <v-list-item height="50" prepend-icon="mdi-magnify" link title="Explore"></v-list-item>
-      <v-list-item height="50" prepend-icon="mdi-bell-outline" link title="Notifications"></v-list-item>
-      <v-list-item height="50" prepend-icon="mdi-email-outline" link title="Messages"></v-list-item>
-      <v-list-item height="50" prepend-icon="mdi-slash-forward-box" link title="Grok"></v-list-item>
-      <v-list-item height="50" prepend-icon="mdi-bookmark-outline" link title="Bookmarks"></v-list-item>
-      <v-list-item height="50" prepend-icon="mdi-account-multiple-outline" link title="Communities"></v-list-item>
-      <v-list-item height="50" prepend-icon="mdi-file-excel-box" link title="Premium"></v-list-item>
-      <v-list-item height="50" prepend-icon="mdi-flash-outline" link title="Verified Orgs"></v-list-item>
-      <v-list-item height="50" prepend-icon="mdi-account-outline" link title="Profile"></v-list-item>
-      <v-list-item height="50" prepend-icon="mdi-dots-horizontal-circle-outline" link title="More"></v-list-item>
-      <v-fade-transition mode="out-in">
-        <v-btn border="thin" variant="tonal" color="primary">Tweet</v-btn>
-      </v-fade-transition>
-    </v-navigation-drawer> -->
 
     <!-- <v-footer>
       <a href="">Terms of Service</a>
@@ -62,6 +49,7 @@
 </template>
 
 <script>
+import userToFollowComponent from './components/user-to-follow-component.vue'
 
 export default {
   name: 'App',
@@ -69,6 +57,9 @@ export default {
   data () {
     return {
     }
+  },
+  components: {
+    userToFollowComponent
   },
   computed: {
     showLayout () {
@@ -81,6 +72,6 @@ export default {
 <style>
 .navigation {
   margin: 0;
-  width:"280";
+  width:280px;
 }
 </style>

@@ -25,22 +25,25 @@ export default async function init () {
   console.log('modules after init:', store.modules)
   return store
 } */
-
-// src/store/index.js
-// import Vue from 'vue'
 import Vuex from 'vuex'
 import account from './account'
 import tweets from './tweets'
+import users from './users'
 
 // Vue.use(Vuex)
 
 const store = new Vuex.Store({
   modules: {
     account,
-    tweets
+    tweets,
+    users
   },
   strict: process.env.NODE_ENV !== 'production' // Enables strict mode in development
 })
 
 // Optional: Initialize any state if needed
+store.dispatch('account/init')
+store.dispatch('tweets/init')
+store.dispatch('users/init')
+
 export default store

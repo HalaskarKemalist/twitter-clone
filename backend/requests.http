@@ -48,7 +48,7 @@ GET http://localhost:3001/tweets/{tweet._id} HTTP/1.1
 POST http://localhost:3001/tweets HTTP/1.1
 Content-Type: application/json
 
-{ "author":"66aa59ff7956004317130b67", "body":"Aslan Tweet 10" }
+{ "author":"66f17fe7a5198289ed910ca0", "body":"Hi, this is Armagan" }
 // create tweet
 
 ###

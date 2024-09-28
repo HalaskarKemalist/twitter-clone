@@ -40,14 +40,17 @@ const tweets = {
       state.loading = val
     },
     [mutations.SET_TWEETS] (state, tweets) {
-      // state.tweets = tweets
-      if (Array.isArray(tweets)) {
-        console.log('Frontend tweets: ', tweets)
-        state.tweets = tweets
-        console.log('TWEET INIT SUCCESSFULL:', this.state.tweets)
-      } else {
-        console.error('Expected an array of tweets')
-      }
+      state.tweets = tweets
+      console.log('Frontend tweets: ', tweets)
+      console.log('TWEET INIT SUCCESSFULL')
+      // console.log('TWEET INIT SUCCESSFULL:', this.state.tweets.length)
+      // if (Array.isArray(tweets)) {
+      //   console.log('Frontend tweets: ', tweets)
+      //   state.tweets = tweets
+      //   console.log('TWEET INIT SUCCESSFULL:', this.state.tweets.length)
+      // } else {
+      //   console.error('Expected an array of tweets')
+      // }
     },
     [mutations.ADD_TWEET] (state, tweet) {
       state.tweets.unshift(tweet)
@@ -60,7 +63,7 @@ const tweets = {
     }
   },
   actions: {
-    async [actions.INIT] ({ commit, state }) {
+    async [actions.INIT] ({ commit, dispatch, state }) {
       if (!state.socketInitialized) {
         socket.on('tweets', tweetData => {
           // console.log(state.tweets.length)
@@ -70,7 +73,8 @@ const tweets = {
       }
       //   const fetchTweets = throttle(() => dispatch(actions.FETCH_TWEETS), 3000)
 
-    //   socket.on('tweets updated', fetchTweets)
+      //   socket.on('tweets updated', fetchTweets)
+      console.log('tweets store Initialized')
     },
     async [actions.FETCH_TWEETS] ({ commit }, userHandle) {
       try {
