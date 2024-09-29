@@ -53,7 +53,7 @@ export default {
 </script>
 
 <template>
-  <v-container fluid class="no-scrollbar register-container d-flex align-center justify-center" style="height: 100vh;">
+  <v-container fluid class="no-scrollbar login-container d-flex align-center justify-center" style="height: 100vh;">
     <v-row
       align="center"
       justify="center">
@@ -114,7 +114,7 @@ export default {
   border: 1px solid;
 }
 
-.register-container {
+.login-container {
   /* background-color: #121212;
   background: linear-gradient(135deg, #121212 0%, #1a1a1a 100%);
   color: white; Optional: To ensure text is visible */

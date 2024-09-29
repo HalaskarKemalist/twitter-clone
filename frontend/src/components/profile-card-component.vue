@@ -28,7 +28,7 @@ export default {
         <v-card-title>
             <v-row justify="space-between">
                 <v-col cols="4">
-                    <v-avatar size="100" class="profile-avatar">
+                    <v-avatar size="75" class="profile-avatar">
                         <img :src="user.profilePicture" alt="Profile Picture" />
                     </v-avatar>
                 </v-col>

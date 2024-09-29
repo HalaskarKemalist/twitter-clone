@@ -2,49 +2,65 @@
 import { mapState } from 'vuex'
 import profileCardComponent from '../components/profile-card-component'
 // import userProfileFeedComponent from '../components/user-profile-feed-component'
+import userToFollowComponent from '@/components/user-to-follow-component.vue'
+import LeftSidebarComponent from '@/components/left-sidebar-component.vue'
 
 export default {
   name: 'profile-page-view',
   components: {
-    profileCardComponent
+    profileCardComponent,
+    userToFollowComponent,
+    LeftSidebarComponent
   },
-  /* data () {
-    return {
-      user: null
-      // user: {
-      //   profilePicture: 'https://cdn.vuetifyjs.com/images/john.jpg',
-      //   header: 'https://cdn.vuetifyjs.com/images/cards/docks.jpg',
-      //   displayName: 'Aslan',
-      //   handle: 'aslan',
-      //   bio: 'means lion in English',
-      //   location: 'Ankara',
-      //   website: 'website',
-      //   joinDate: '2022-01-15',
-      //   postCount: 320,
-      //   followersCount: 120,
-      //   followingCount: 180
-      // }
-    }
-  }, */
   computed: {
-    ...mapState('account', ['user'])
+    ...mapState('account', ['user']),
+    ...mapState('users', ['users'])
+  },
+  created () {
+    // Debugging: Check if the user object is correctly coming from Vuex
+    console.log('profile page view user:', this.user)
   }
 }
 </script>
 
 <template>
-    <v-sheet width="600">
-        <v-row justify="center">
-            <v-col>
-              <div v-if="user">
-                <!-- <h1>profile-page-view</h1> -->
-                <profileCardComponent :user="user"/>
-                <!-- <userProfileFeedComponent /> -->
-              </div>
-              <div v-else>
-                <v-alert variant="text" color="primary" style="margin: 10px 0;">Hmm...this user doesn’t exist. Try searching for someone else.</v-alert>
-              </div>
-            </v-col>
-        </v-row>
-    </v-sheet>
+  <v-container>
+    <v-row>
+
+      <v-col cols="2" class="left-sidebar">
+        <LeftSidebarComponent :user="user"/>
+      </v-col>
+
+      <v-col cols="6" class="main-feed">
+        <div v-if="user">
+          <profileCardComponent :user="user" class="pa-0"/>
+          <!-- <userProfileFeedComponent /> -->
+        </div>
+        <div v-else>
+          <v-alert variant="text" color="primary" style="margin: 10px 0;">Hmm...this user doesn’t exist. Try searching for someone else.</v-alert>
+        </div>
+      </v-col>
+
+      <v-col cols="4" class="right-sidebar">
+        <userToFollowComponent :users="users"/>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
+
+<style scoped>
+
+.main-feed {
+  padding: 0%;
+}
+
+.right-sidebar {
+  border-left: 1px solid rgba(0, 0, 0, 1);
+}
+
+.left-sidebar {
+  border-right: 1px solid rgba(0, 0, 0, 1);
+  padding: 0%;
+}
+
+</style>

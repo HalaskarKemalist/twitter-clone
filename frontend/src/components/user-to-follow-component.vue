@@ -1,11 +1,16 @@
 <script>
-import { mapState } from 'vuex'
 import userBannerComponent from './user-banner-component.vue'
 
 export default {
   name: 'user-to-follow-component',
   components: {
     userBannerComponent
+  },
+  props: {
+    users: {
+      type: Array,
+      required: true
+    }
   },
   data () {
     return {
@@ -14,7 +19,6 @@ export default {
     }
   },
   computed: {
-    ...mapState('users', ['users']),
     visibleUsers () {
       return this.users.slice(0, this.visibleUserCount)
     },
@@ -41,9 +45,10 @@ export default {
         <v-row>
             <v-col>
                 <!-- Who to follow section -->
-                <v-card color="pink">
+                <v-card>
                     <v-card-title>Who to follow</v-card-title>
-                    <v-list dense>
+                    <v-divider></v-divider>
+                    <v-list rounded-lg dense>
                         <v-list-item v-for="user in visibleUsers" :key="user._id">
                             <userBannerComponent :user="user" />
                         </v-list-item>

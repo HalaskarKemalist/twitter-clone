@@ -12,12 +12,12 @@ const actions = {
 const users = {
   namespaced: true,
   state: () => ({
-    users: null
+    users: []
   }),
   mutations: {
     [mutations.SET_USERS] (state, users) {
       state.users = users
-      console.log(state.users.length)
+      console.log('set user içi', state.users.length)
     }
   },
   actions: {

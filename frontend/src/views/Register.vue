@@ -168,14 +168,13 @@ export default {
   border-radius: 16px;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(50px);
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  border: 1px solid;
 }
 
 .register-container {
   /* background-color: #121212;
   background: linear-gradient(135deg, #121212 0%, #1a1a1a 100%);
   color: white; Optional: To ensure text is visible */
-  background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
   height: 100vh;
   display: flex;
   justify-content: center;
