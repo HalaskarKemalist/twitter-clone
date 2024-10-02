@@ -30,7 +30,7 @@ const feedRouter = require('./routes/home')
 const searchRouter = require('./routes/search')
 const notificationsRouter = require('./routes/notifications')
 const adminRouter = require('./routes/admin')
-const accoutRouter = require('./routes/account');
+const accountRouter = require('./routes/account');
 const { stringify } = require('flatted');
 
 const app = express()
@@ -86,6 +86,6 @@ app.use('/api/home', feedRouter)
 app.use('/api/auth', authRouter)
 app.use('/api/tweets', tweetsRouter)
 app.use('/api/users', usersRouter)
-app.use('/api/account', accoutRouter)
+app.use('/api/account', accountRouter)
 
 module.exports = app

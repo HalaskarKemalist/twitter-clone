@@ -6,19 +6,19 @@ export default {
   components: {
     tweetCardComponent
   },
-  props: {
-    tweets: {
-      type: Array,
-      default: () => []
-    },
-    loadingTweets: {
-      type: Boolean,
-      default: false
+  props: ['tweets'],
+  data () {
+    return {
+      loadingTweets: false
     }
   },
   methods: {
     async loadMoreTweets () {
-      this.$emit('loadMoreTweets') // Emit the event to load more tweets
+      if (!this.loadingTweets) {
+        this.loadingTweets = true
+        await this.$emit('loadMoreTweets')
+        this.loadingTweets = false
+      }
     }
   }
 }
@@ -32,7 +32,7 @@ export default {
         :disabled="loadingTweets"
         :scroll-target="'#scrollable-content'"
       >
-        <TweetCardComponent
+        <tweetCardComponent
           v-for="(tweet, index) in tweets"
           :key="tweet._id || index"
           :tweet="tweet"

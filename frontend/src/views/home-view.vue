@@ -1,5 +1,9 @@
 <script>
-import feedComponent from '../components/feed-component.vue'
+import { mapState } from 'vuex'
+import leftSidebarComponent from '@/components/left-sidebar-component.vue'
+// import composeTweet from '@/components/compose-tweet-component.vue'
+import userToFollowComponent from '@/components/user-to-follow-component.vue'
+import feedComponent from '@/components/feed-component.vue'
 
 export default {
   name: 'home-view',
@@ -8,23 +12,50 @@ export default {
     }
   },
   components: {
+    leftSidebarComponent,
+    /* composeTweet, */
+    userToFollowComponent,
     feedComponent
+  },
+  computed: {
+    ...mapState('account', ['user']),
+    ...mapState('users', ['users'])
   }
 }
 </script>
 
 <template>
-  <feedComponent />
+  <v-container>
+    <v-row>
+
+      <v-col cols="2" class="left-sidebar">
+        <leftSidebarComponent :user="user"/>
+      </v-col>
+
+      <v-col cols="6" class="main-feed">
+        <feedComponent />
+      </v-col>
+
+      <v-col cols="4" class="right-sidebar">
+        <userToFollowComponent :users="users"/>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
-//- v-avatar(:image="'default-avatar-url'", color="grey-darken-3")
-  //- p(v-if="isLoading") Please wait...
-  //- div(v-else)
-  //-   h1 Tweets
-  //-   p There are {{ tweets.length }} tweets.
+<style scoped>
 
-  //-   div(v-if="tweets.length")
-  //-       ol
-  //-           li(v-for="tweet in tweets" :key="tweet._id")
-  //-             Tweet(:tweet="tweet")
-  //-   p(v-else) No tweets
+.main-feed {
+  padding: 0%;
+}
+
+.right-sidebar {
+  border-left: 1px solid rgba(0, 0, 0, 1);
+}
+
+.left-sidebar {
+  border-right: 1px solid rgba(0, 0, 0, 1);
+  padding: 0%;
+}
+
+</style>

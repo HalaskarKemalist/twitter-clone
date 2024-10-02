@@ -3,24 +3,27 @@ const { userService } = require('../services/user-service')
 // const passport = require('passport')
 const router = require('express').Router()
 const ensureAuthenticated = require('../middleware/ensure-authenticated')
+const Tweet = require('../models/tweet')
+const User = require('../models/user')
 
-router.post('/:userHandle/tweets/', ensureAuthenticated, async (req, res) => {
+router.post('/:userHandle', async (req, res) => {
     try {
         console.log('reached router')
-        const { userHandle } = req.params
-        const { body, attachments, originalTweet } = req.body
+        console.log('userHandle:', req.params.userHandle)
+        console.log('content:', req.body.content)
+        const userHandle = req.params.userHandle
+        const body = req.body.content
 
         const user = await User.findOne({ handle: userHandle })
+        console.log('user:', user)
         if (!user) return res.status(404).send('User not found')
 
-        if (req.user._id.toString() !== user._id.toString()) {
-            return res.status(403).send('Forbidden');
-        }
+        // if (req.user._id.toString() !== user._id.toString()) {
+        //     return res.status(403).send('Forbidden');
+        // }
 
         const tweet = new Tweet({
             body,
-            attachments,
-            originalTweet: originalTweet || null,
             author: user._id,
             createdAt: new Date()
         })
@@ -28,12 +31,12 @@ router.post('/:userHandle/tweets/', ensureAuthenticated, async (req, res) => {
         await tweet.save()
         res.status(201).send(tweet)
     } catch (error) {
-        // console.error(error)
+        console.error(error)
         res.status(500).send('Server error')
     }
 })
 
-router.get('/:userHandle/tweets/:tweetId', ensureAuthenticated, async (req, res) => {
+router.get('/:userHandle/:tweetId', ensureAuthenticated, async (req, res) => {
     try {
         const { tweetId } = req.params
 
@@ -47,7 +50,7 @@ router.get('/:userHandle/tweets/:tweetId', ensureAuthenticated, async (req, res)
     }
 })
 
-router.get('/:userHandle/tweets/', ensureAuthenticated, async (req, res) => {
+router.get('/:userHandle/', ensureAuthenticated, async (req, res) => {
     try {
         const { userHandle } = req.params;
 
@@ -62,7 +65,7 @@ router.get('/:userHandle/tweets/', ensureAuthenticated, async (req, res) => {
     }
 });
 
-router.delete('/:userHandle/tweets/:tweetId', ensureAuthenticated, async (req, res) => {
+router.delete('/:userHandle/:tweetId', ensureAuthenticated, async (req, res) => {
     try {
         const { tweetId } = req.params;
 
@@ -81,7 +84,7 @@ router.delete('/:userHandle/tweets/:tweetId', ensureAuthenticated, async (req, r
     }
 });
 
-router.patch('/:userHandle/tweets/:tweetId', ensureAuthenticated, async (req, res) => {
+router.patch('/:userHandle/:tweetId', ensureAuthenticated, async (req, res) => {
     try {
         const { tweetId } = req.params;
         const { body, attachments } = req.body;

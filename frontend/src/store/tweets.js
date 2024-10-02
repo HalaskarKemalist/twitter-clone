@@ -25,7 +25,8 @@ const actions = {
   MORE: 'more',
   PIN_TWEET: 'pinTweet',
   DELETE_TWEET: 'deleteTweet',
-  INIT: 'init'
+  INIT: 'init',
+  TEST: 'test'
 }
 
 const tweets = {
@@ -63,7 +64,10 @@ const tweets = {
     }
   },
   actions: {
-    async [actions.INIT] ({ commit, dispatch, state }) {
+    async [actions.TEST] ({ commit }) {
+      console.log('Test action')
+    },
+    async [actions.INIT] ({ commit, state }) {
       if (!state.socketInitialized) {
         socket.on('tweets', tweetData => {
           // console.log(state.tweets.length)
@@ -76,7 +80,12 @@ const tweets = {
       //   socket.on('tweets updated', fetchTweets)
       console.log('tweets store Initialized')
     },
-    async [actions.FETCH_TWEETS] ({ commit }, userHandle) {
+    async [actions.FETCH_TWEETS] ({ dispatch, state }) {
+      if (!state.socketInitialized) {
+        await dispatch(actions.INIT)
+      }
+    },
+    /* async [actions.FETCH_TWEETS] ({ commit }, userHandle) {
       try {
         const response = await axios.get(`/${userHandle}/tweets`)
         console.log('tweets fetched for this user:', userHandle)
@@ -84,7 +93,7 @@ const tweets = {
       } catch (e) {
         console.error('Error fetching tweets:', e)
       }
-    },
+    }, */
     async [actions.FETCH_TWEET] ({ commit }, { userHandle, tweetId }) {
       try {
         const response = await axios.get(`/${userHandle}/tweets/${tweetId}`)
@@ -93,13 +102,18 @@ const tweets = {
         console.error('Error fetching tweet:', e)
       }
     },
-    async [actions.SUBMIT_TWEET] ({ commit, dispatch }, { userHandle, tweet }) {
+    async [actions.SUBMIT_TWEET] ({ commit, dispatch }, { userHandle, content }) {
+      console.log('reached SUBMIT_TWEET(outside try)')
+      // alert('reached SUBMIT_TWEET(outside try)')
       try {
-        console.log('reached SUBMIT_TWEET')
-        const response = await axios.post(`/tweets/${userHandle}/tweets`, tweet)
+        console.log('reached SUBMIT_TWEET(inside try)')
+        // alert('reached SUBMIT_TWEET(inside try)')
+        console.log('userHandle:', userHandle)
+        console.log('content:', content)
+        const response = await axios.post(`/api/tweets/${userHandle}`, { content })
         console.log('SUBMIT_TWEET response:', response)
         commit(mutations.ADD_TWEET, response.data)
-        dispatch(actions.FETCH_TWEETS, userHandle)
+        dispatch(actions.FETCH_TWEETS)
       } catch (e) {
         console.error('Error with Axios:', e.response || e.message || e)
         // console.error('Error submitting tweet:', e)
@@ -149,11 +163,6 @@ const tweets = {
     },
     [actions.UPDATE_TWEETS] ({ commit }, tweets) {
       commit(mutations.UPDATE_TWEETS, tweets)
-    },
-    async [actions.SUBMIT_TWEET] ({ dispatch }, tweet) {
-      await axios.post('/tweets', tweet)
-
-      await dispatch('account/fetchUser', {}, { root: true })
     }
   }
 }

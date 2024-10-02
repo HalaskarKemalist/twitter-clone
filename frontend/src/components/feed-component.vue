@@ -1,54 +1,111 @@
 <script>
-import composeTweetComponent from '../components/compose-tweet-component.vue'
+import { mapActions, mapState } from 'vuex'
 import tweetListComponent from '../components/tweet-list-component.vue'
+import composeTweet from '../components/compose-tweet-component.vue'
 
 export default {
   name: 'feed-component',
   data: () => ({
-    tab: '',
+    currentTab: 1,
     tabs: [
-      {
-        text: 'For you',
-        value: '1'
-      },
-      {
-        text: 'Following',
-        value: '2'
-      }
+      { text: 'For you', value: 1 },
+      { text: 'Following', value: 2 }
     ]
   }),
   components: {
-    composeTweetComponent,
+    composeTweet,
     tweetListComponent
+  },
+  computed: {
+    ...mapState('tweets', ['tweets'])
+  },
+  methods: {
+    ...mapActions('tweets', ['fetchTweets']),
+    switchTab (value) {
+      this.currentTab = value // Switch between tabs
+      this.fetchTweets() // Fetch tweets for the respective tab
+    }
   }
 }
 </script>
 
 <template>
-  <!-- <composeTweetComponent />
-  <tweetListComponent /> -->
-  <v-sheet color="black">
+  <v-card elevation="0" class="feed-sheet">
     <v-tabs
-      v-model="tab"
-      :items="tabs"
+      v-model="currentTab"
       align-tabs="center"
-      color="white"
+      color="primary"
+      background-color="white"
       height="60"
-      slider-color="#f78166"
+      class="px-4"
+      slider-color="#66aaf7"
+      fixed-tabs
     >
-      <template v-slot:tab="{ item }">
-        <v-tab
-          :text="item.text"
-          :value="item.value"
-        ></v-tab>
-      </template>
-
-      <template v-slot:item="{ item }">
-        <v-tabs-window-item :value="item.value" class="pa-4">
-          <composeTweetComponent />
-          <tweetListComponent />
-        </v-tabs-window-item>
-      </template>
+      <v-tab
+        v-for="tab in tabs"
+        :key="tab.value"
+        :value="tab.value"
+        @click="switchTab(tab.value)"
+      >
+        {{ tab.text }}
+      </v-tab>
     </v-tabs>
-  </v-sheet>
+
+    <v-tabs-window v-model="currentTab">
+      <v-tabs-window-item v-for="n in 2" :key="n" :value="n">
+        <!-- <div class="tab-content">
+          <composeTweet class="compose-tweet" />
+          <tweetListComponent :tweets="tweets" />
+        </div> -->
+        <v-container fluid>
+          <v-row>
+            <v-col cols="12">
+              <composeTweet class="border-thin" elevation="0"/>
+              <tweetListComponent :tweets="tweets" />
+            </v-col>
+          </v-row>
+        </v-container>
+      </v-tabs-window-item>
+    </v-tabs-window>
+
+  </v-card>
 </template>
+
+<style scoped>
+.feed-sheet {
+  border-radius: 12px;
+  min-height: 100vh; /* Full height for better scrolling behavior */
+}
+
+.v-tabs {
+  border-bottom: 1px solid #e0e0e0; /* Subtle bottom border */
+}
+
+.v-tab {
+  font-weight: 500;
+  font-size: 16px;
+  text-transform: none;
+  color: #424242; /* Dark grey for tab text */
+}
+
+.v-tab:hover {
+  color: #66aaf7; /* Highlight on hover */
+}
+
+.v-tabs-items {
+  background-color: #ffffff; /* Pure white for the content background */
+  border-radius: 0 0 12px 12px;
+}
+
+.v-tab-item {
+  padding: 16px 0; /* Padding between components */
+}
+
+.compose-tweet {
+  margin-bottom: 24px; /* Spacing below compose tweet */
+}
+
+.tab-content {
+  padding: 16px;
+}
+</style>

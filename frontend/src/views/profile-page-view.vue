@@ -3,14 +3,14 @@ import { mapState } from 'vuex'
 import profileCardComponent from '../components/profile-card-component'
 // import userProfileFeedComponent from '../components/user-profile-feed-component'
 import userToFollowComponent from '@/components/user-to-follow-component.vue'
-import LeftSidebarComponent from '@/components/left-sidebar-component.vue'
+import leftSidebarComponent from '@/components/left-sidebar-component.vue'
 
 export default {
   name: 'profile-page-view',
   components: {
     profileCardComponent,
     userToFollowComponent,
-    LeftSidebarComponent
+    leftSidebarComponent
   },
   computed: {
     ...mapState('account', ['user']),
@@ -28,7 +28,7 @@ export default {
     <v-row>
 
       <v-col cols="2" class="left-sidebar">
-        <LeftSidebarComponent :user="user"/>
+        <leftSidebarComponent :user="user"/>
       </v-col>
 
       <v-col cols="6" class="main-feed">
