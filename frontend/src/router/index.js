@@ -82,11 +82,11 @@ const routes = [
     // path: '/users/:userId',
     path: '/:handle',
     name: 'profile-page-view',
-    component: profilePageView
-    // beforeEnter (to, from, next) {
-    //   if (!store.state.account.user) return next('/login')
-    //   return next()
-    // }
+    component: profilePageView,
+    beforeEnter (to, from, next) {
+      if (!store.state.account.user) return next('/login')
+      return next()
+    }
   },
   {
     path: '/about',

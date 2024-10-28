@@ -6,12 +6,7 @@ const passport = require('passport')
 
 // const rateLimiter = require('../lib/rate-limiter')
 const User = require('../models/user')
-
-function ensureLogin(req, res, next) {
-    if (req.user) return next()
-
-    next(new Error('Unauthorized'))
-}
+const ensureAuthenticated = require('../middleware/ensure-authenticated')
 
 router.get('/', async (req, res) => {
         console.log(req.user)
@@ -19,7 +14,7 @@ router.get('/', async (req, res) => {
     }
 )
 
-router.patch('/update-profile', ensureLogin, async (req, res, next) => {
+router.patch('/update-profile', ensureAuthenticated, async (req, res, next) => {
     const { name, profilePicture, bio, location, website } = req.body
 
     const user = await User.findById(req.user._id)

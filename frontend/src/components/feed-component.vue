@@ -23,7 +23,11 @@ export default {
     ...mapActions('tweets', ['fetchTweets']),
     switchTab (value) {
       this.currentTab = value // Switch between tabs
-      this.fetchTweets() // Fetch tweets for the respective tab
+      this.fetchTweets({ tab: this.currentTab }) // Fetch tweets for the respective tab
+    },
+    async loadMoreTweets () {
+      await this.fetchTweets({ tab: this.currentTab, page: this.page })
+      this.page += 1
     }
   }
 }
@@ -61,7 +65,7 @@ export default {
           <v-row>
             <v-col cols="12">
               <composeTweet class="border-thin" elevation="0"/>
-              <tweetListComponent :tweets="tweets" />
+              <tweetListComponent :tweets="tweets" @loadMoreTweets="loadMoreTweets"/>
             </v-col>
           </v-row>
         </v-container>
@@ -74,7 +78,7 @@ export default {
 <style scoped>
 .feed-sheet {
   border-radius: 12px;
-  min-height: 100vh; /* Full height for better scrolling behavior */
+  min-height: 50vh;
 }
 
 .v-tabs {

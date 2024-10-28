@@ -61,25 +61,45 @@ require('./mongo-connection')
 
 app.set('view engine', 'pug')
 
+sessionStore = new MongoStore({
+    mongoUrl: 'mongodb://localhost:27017/Twitter',
+    stringify: false
+})
+
 app.use(session({
-    store: MongoStore.create({ mongoUrl: 'mongodb://localhost:27017/Twitter', stringify: false }),
+    store: sessionStore,
     secret: 'very_secret_key1283',
     cookie: {
-        maxAge: 14 * 24 * 60 * 60 * 1000,
+        maxAge: 1 * 24 * 60 * 60 * 1000, // 1 day
         // sameSite: process.env.NODE_ENV === 'production' && 'none',
         // secure: process.env.NODE_ENV === 'production'
-        sameSite: 'none',
-        secure: false
+        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',  // Use 'lax' for development, 'none' for cross-origin in production
+        secure: process.env.NODE_ENV === 'production'  // Set to 'true' in production for HTTPS; 'false' in development
     },
     resave: false,
-    saveUninitialized: true }))
+    saveUninitialized: false }))
 app.use(passport.initialize());
 app.use(passport.session());
 
 passport.use(User.createStrategy())
 
-passport.serializeUser(User.serializeUser())
-passport.deserializeUser(User.deserializeUser())
+// passport.serializeUser(User.serializeUser())
+// passport.deserializeUser(User.deserializeUser())
+
+passport.serializeUser((user, done) => {
+    done(null, user._id);  // Store user ID in the session
+});
+
+passport.deserializeUser(async (id, done) => {
+    try {
+      const user = await User.findById(id);
+      console.log('Deserialized User:', user);  // Debug to see if the user is found
+      done(null, user);
+    } catch (err) {
+      console.error('Error in deserializing user:', err);
+      done(err, null);
+    }
+});
 
 app.use('/api/', indexRouter)
 app.use('/api/home', feedRouter)

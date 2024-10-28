@@ -94,8 +94,8 @@ export default {
     ...mapActions('tweets', ['submitTweet', 'test']),
     async Tweet () {
       const tweetData = {
-        userHandle: this.user.handle,
-        content: this.tweetContent
+        userId: this.user._id,
+        tweetBody: this.tweetContent
       }
       console.log(tweetData)
       await this.submitTweet(tweetData)

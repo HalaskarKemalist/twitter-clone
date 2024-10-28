@@ -1,21 +1,71 @@
 <script>
+import { mapActions } from 'vuex'
 
 export default {
   name: 'tweet-card-component',
   props: ['tweet'],
   data: () => ({
     items: [
-      { title: 'Delete' },
-      { title: 'Edit' },
-      { title: 'Pin to your profile' }
-    ]
-  })
+      { title: 'Edit', action: 'edit' },
+      { title: 'Pin to your profile', action: 'pin' }
+    ],
+    isEditing: false,
+    editedTweet: ''
+  }),
+  computed: {
+    isUserTweet () {
+      return this.tweet.author.handle === this.$store.state.account.user.handle
+    }
+  },
+  methods: {
+    ...mapActions('tweets', ['deleteTweet', 'updateTweet']),
+
+    handleAction (action) {
+      if (action === 'delete') {
+        this.deleteTweetConfirm()
+      } else if (action === 'edit') {
+        this.enableEditMode()
+      }
+    },
+
+    deleteTweetConfirm () {
+      if (confirm('Are you sure you want to delete this tweet?')) {
+        const userHandle = this.$store.state.account.user.handle
+        const tweetId = this.tweet._id
+
+        console.log('User Handle:', userHandle) // Check this value
+        console.log('Tweet ID:', tweetId)
+
+        this.deleteTweet({ userHandle, tweetId })
+      }
+    },
+
+    enableEditMode () {
+      this.isEditing = true
+      this.editedTweet = this.tweet.body
+    },
+
+    async submitEdit () {
+      if (this.editedTweet !== this.tweet.body) {
+        await this.updateTweet({
+          tweetId: this.tweet._id,
+          body: this.editedTweet
+        })
+      }
+      this.isEditing = false
+    },
+
+    cancelEdit () {
+      this.isEditing = false // Discard changes
+    }
+  }
 }
 </script>
 
 <template>
   <v-card class="tweet-card border-thin" color="white" elevation="0">
-    <v-card-title class="d-flex align-center px-4 py-2">
+
+    <v-card-title v-if="!isEditing" class="d-flex align-center px-4 py-2">
       <v-avatar size="40" class="mr-3" :image="tweet.author.profilePicture"></v-avatar>
       <div>
         <div class="author-name">{{ tweet.author.name || 'Unknown User' }}</div>
@@ -32,8 +82,12 @@ export default {
           </template>
 
           <v-list>
-            <v-list-item v-for="(item, index) in items" :key="index">
+            <v-list-item v-for="(item, index) in items" :key="index" @click="handleAction(item.action)">
               <v-list-item-title>{{ item.title }}</v-list-item-title>
+            </v-list-item>
+
+            <v-list-item v-if="isUserTweet" @click="handleAction('delete')">
+              <v-list-item-title class="delete-button-text">Delete</v-list-item-title>
             </v-list-item>
           </v-list>
         </v-menu>
@@ -41,7 +95,21 @@ export default {
     </v-card-title>
 
     <v-card-text class="tweet-body px-4 py-1">
-      {{ tweet.body }}
+      <div v-if="!isEditing">{{ tweet.body }}</div>
+      <div v-else>
+        <v-textarea
+          v-model="editedTweet"
+          rows="3"
+          hide-details
+          auto-grow
+          outlined
+        ></v-textarea>
+
+        <div class="edit-actions d-flex justify-end mt-2">
+          <v-btn @click="cancelEdit" color="grey darken-2" small>Cancel</v-btn>
+          <v-btn @click="submitEdit" color="blue darken-2" small>Save</v-btn>
+        </div>
+      </div>
     </v-card-text>
 
     <v-card-actions class="px-4 py-2">
@@ -59,7 +127,6 @@ export default {
 
 <style scoped>
 .tweet-card {
-  margin-bottom: 16px;
   background-color: white; /* Light background for the card */
   transition: box-shadow 0.2s;
 }
@@ -99,7 +166,15 @@ export default {
   padding: 8px;
 }
 
+.edit-actions {
+  margin-top: 10px;
+}
+
 .v-card-title {
   padding: 8px;
+}
+
+.delete-button-text {
+  color: red !important;
 }
 </style>

@@ -1,25 +1,38 @@
 <script>
-import { shallowRef } from 'vue'
+import { mapActions, mapState } from 'vuex'
 
 export default {
 
   name: 'user-banner-component',
-  data () {
-    return {
-      isSubscriber: shallowRef(false)
-    }
-  },
-  methods: {
-    followUser () {
-      // Handle follow action
-      console.log(`Followed ${this.user.name}`)
-    }
-  },
   props: {
     user: {
       type: Object,
       required: true
     }
+  },
+  computed: {
+    ...mapState('account', ['following']),
+    isSubscriber () {
+      // const result = this.following.includes(this.user._id)
+      const result = this.following.some(followingUser => followingUser._id === this.user._id)
+      console.log(`isSubscriber: ${result}`)
+      return result
+    }
+  },
+  methods: {
+    ...mapActions('account', ['followUser', 'unfollowUser', 'fetchFollowing']),
+    async toggleFollow () {
+      if (this.isSubscriber) {
+        await this.unfollowUser(this.user._id)
+      } else {
+        await this.followUser(this.user._id)
+      }
+
+      await this.fetchFollowing()
+    }
+  },
+  async created () {
+    await this.fetchFollowing()
   }
 }
 </script>
@@ -50,7 +63,7 @@ export default {
                     :slim="isSubscriber"
                     :color="isSubscriber ? 'error' : 'primary'"
                     :border="`thin ${isSubscriber ? 'error' : 'success'}`"
-                    @click="followUser; isSubscriber = !isSubscriber">
+                    @click="toggleFollow">
                     </v-btn>
                   </v-fade-transition>
                 </v-col>

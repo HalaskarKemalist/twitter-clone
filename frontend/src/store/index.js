@@ -43,7 +43,7 @@ const store = new Vuex.Store({
 
 // Optional: Initialize any state if needed
 store.dispatch('account/init')
-store.dispatch('tweets/init')
+store.dispatch('tweets/initSocket')
 store.dispatch('users/init')
 
 export default store
