@@ -2,7 +2,7 @@
 import io from 'socket.io-client'
 // import throttle from 'lodash.throttle'
 
-const socket = io('http://localhost:3000')
+const socket = io('http://backend:3000')
 
 const mutations = {
   UPDATE_TWEET: 'updateTweet',
@@ -243,7 +243,7 @@ export default {
   actions: {
     async [actions.INIT_SOCKET] ({ commit }) {
       if (!this.state.socket) {
-        const socket = io('http://localhost:3000' || process.env.VUE_APP_SOCKET_PATH)
+        const socket = io('http://backend:3000' || process.env.VUE_APP_SOCKET_PATH)
 
         socket.on('connect', () => {
           console.log('TWEET SOCKET CONNECTED')

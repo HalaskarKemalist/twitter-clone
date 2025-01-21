@@ -15,7 +15,7 @@ module.exports = async (app, server) => {
     // socketServer = io(server)
     socketServer = new io.Server(server, {
         cors: {
-            origin: "http://localhost:8080",
+            origin: "http://frontend:8080",
             credentials: true
         }
     })
@@ -56,7 +56,7 @@ module.exports = async (app, server) => {
 
     socketServer = new io.Server(server, {
         cors: {
-            origin: "http://localhost:8080",
+            origin: "http://frontend:3001",
             credentials: true
         }
     })

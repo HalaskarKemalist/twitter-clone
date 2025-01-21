@@ -25,6 +25,6 @@ module.exports = defineConfig({
   },
 
   devServer: {
-    proxy: 'http://localhost:3000', // Your backend server address
+    proxy: 'http://backend:3000', // Your backend server address
   }
 })

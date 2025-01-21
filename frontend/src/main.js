@@ -6,7 +6,7 @@ import vuetify from './plugins/vuetify'
 import { loadFonts } from './plugins/webfontloader'
 import axios from 'axios'
 
-axios.defaults.baseURL = process.env.VUE_APP_BASE_PATH || 'http://localhost:3000' // Backend API base URL
+axios.defaults.baseURL = process.env.VUE_APP_BASE_PATH || 'http://backend:3000' // Backend API base URL
 axios.defaults.withCredentials = true // Include cookies with requests
 
 loadFonts()

@@ -44,7 +44,7 @@ app.use(cookieParser())
 // app.use(compression())
 
 app.use(cors({
-    origin: 'http://localhost:8080',
+    origin: 'http://frontend:3001',
     credentials: true
 }))
 

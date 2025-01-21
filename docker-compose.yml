@@ -1,0 +1,68 @@
+version: '3'
+services:
+  reverse-proxy:
+    image: traefik:v3.2
+    command:
+      - '--api.insecure=true'
+      - '--providers.docker=true'
+    ports:
+      - 80:80
+      - 8080:8080
+    volumes:
+      - '/var/run/docker.sock:/var/run/docker.sock'
+  frontend:
+    image: twitter-clone-frontend
+    build:
+      context: frontend
+      dockerfile: Dockerfile
+    labels:
+      - 'traefik.enable=true'
+      # - 'traefik.http.routers.twitter-clone-frontend.rule=Host(`${DOMAIN:-stack.localhost}`)'
+      - 'traefik.http.routers.twitter-clone-frontend.rule=Host(`stack.localhost`)'
+      - 'traefik.http.routers.twitter-clone-frontend.entrypoints=web'
+    ports:
+      - 3001:3001
+    volumes:
+      - ./frontend/src:/app/src
+      - ./frontend/public:/app/public
+  backend:
+    image: twitter-clone-backend
+    build:
+      context: backend
+      dockerfile: Dockerfile
+    environment:
+      - MONGODB_CONNECTION_STRING=mongodb://mongo/twitter-clone-database
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.http.routers.twitter-clone-backend.rule=Host(`${DOMAIN:-stack.localhost}`) && (PathPrefix(`/api`) || PathPrefix(`/socket`))'
+      - 'traefik.http.middlewares.twitter-clone-backend-stripprefix.stripprefix.prefixes=/api'
+      - 'traefik.http.routers.twitter-clone-backend.middlewares=twitter-clone-backend-stripprefix'
+      - 'traefik.http.routers.twitter-clone-backend.entrypoints=web'
+    ports:
+      - 3000:3000
+      - 35729:35729
+    volumes:
+      - ./backend/src:/app/src
+  mongo:
+    image: mongo
+    ports:
+      - 37017:27017
+    # volumes:
+    #   - ./data:/data/db
+  # load-balancer:
+  #   image: traefik:v2.2
+  #   command:
+  #     - '--api.insecure=true'
+  #     - '--providers.docker=true'
+  #     - '--providers.docker.exposedbydefault=false'
+  #     - '--entrypoints.web.address=:80'
+  #   ports:
+  #     - 80:80
+  #     - 8080:8080
+  #   volumes:
+  #     - '/var/run/docker.sock:/var/run/docker.sock:ro'
+
+  whoami:
+    image: traefik/whoami
+    labels:
+      - 'traefik.http.routers.whoami.rule=Host(`whoami.docker.localhost`)'
