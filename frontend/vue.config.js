@@ -25,6 +25,25 @@ module.exports = defineConfig({
   },
 
   devServer: {
-    proxy: 'http://backend:3000', // Your backend server address
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3000',
+        changeOrigin: true
+      }
+    },
+    allowedHosts: 'all'
   }
 })
+
+// module.exports = {
+//   publicPath: '/',
+//   devServer: {
+//     proxy: {
+//       '/api': {
+//         target: 'http://backend', // Target the backend service directly
+//         changeOrigin: true,
+//         pathRewrite: { '^/api': '' }, // Ensure '/api' works in production
+//       },
+//     },
+//   },
+// };

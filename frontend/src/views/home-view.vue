@@ -1,7 +1,6 @@
 <script>
 import { mapState } from 'vuex'
 import leftSidebarComponent from '@/components/left-sidebar-component.vue'
-// import composeTweet from '@/components/compose-tweet-component.vue'
 import userToFollowComponent from '@/components/user-to-follow-component.vue'
 import feedComponent from '@/components/feed-component.vue'
 
@@ -13,7 +12,6 @@ export default {
   },
   components: {
     leftSidebarComponent,
-    /* composeTweet, */
     userToFollowComponent,
     feedComponent
   },

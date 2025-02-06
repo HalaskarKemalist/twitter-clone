@@ -1,68 +1,73 @@
-version: '3'
+version: '3.9'
 services:
-  reverse-proxy:
-    image: traefik:v3.2
-    command:
-      - '--api.insecure=true'
-      - '--providers.docker=true'
-    ports:
-      - 80:80
-      - 8080:8080
-    volumes:
-      - '/var/run/docker.sock:/var/run/docker.sock'
   frontend:
     image: twitter-clone-frontend
     build:
       context: frontend
       dockerfile: Dockerfile
+    environment:
+      - NODE_ENV=production
     labels:
       - 'traefik.enable=true'
-      # - 'traefik.http.routers.twitter-clone-frontend.rule=Host(`${DOMAIN:-stack.localhost}`)'
-      - 'traefik.http.routers.twitter-clone-frontend.rule=Host(`stack.localhost`)'
-      - 'traefik.http.routers.twitter-clone-frontend.entrypoints=web'
-    ports:
-      - 3001:3001
+      - 'traefik.http.routers.frontend.rule=Host(`app.localhost`)'
+      - 'traefik.http.routers.frontend.entrypoints=web'
     volumes:
       - ./frontend/src:/app/src
       - ./frontend/public:/app/public
+    ports:
+      - 3001:3001
+    networks:
+      - app_network
+
   backend:
     image: twitter-clone-backend
     build:
       context: backend
       dockerfile: Dockerfile
     environment:
-      - MONGODB_CONNECTION_STRING=mongodb://mongo/twitter-clone-database
+      # NODE_ENV: "production"
+      - MONGODB_CONNECTION_STRING=mongodb://mongo:27017/Twitter
+      - FRONTEND_BASE_PATH=http://${DOMAIN:-app.localhost}
+      - BACKEND_BASE_PATH=http://${DOMAIN:-app.localhost}/api
+      - EMAIL_HOST=${EMAIL_HOST}
+      - EMAIL_PORT=${EMAIL_PORT}
+      - EMAIL_USERNAME=${EMAIL_USERNAME}
+      - EMAIL_PASSWORD=${EMAIL_PASSWORD}
     labels:
       - 'traefik.enable=true'
-      - 'traefik.http.routers.twitter-clone-backend.rule=Host(`${DOMAIN:-stack.localhost}`) && (PathPrefix(`/api`) || PathPrefix(`/socket`))'
-      - 'traefik.http.middlewares.twitter-clone-backend-stripprefix.stripprefix.prefixes=/api'
-      - 'traefik.http.routers.twitter-clone-backend.middlewares=twitter-clone-backend-stripprefix'
-      - 'traefik.http.routers.twitter-clone-backend.entrypoints=web'
-    ports:
-      - 3000:3000
-      - 35729:35729
+      - 'traefik.http.routers.backend.rule=Host(`api.app.localhost`) && (PathPrefix(`/api`) || PathPrefix(`/socket`))'
+      # - 'traefik.http.routers.backend.middlewares=backend-stripprefix@docker'
+      - 'traefik.http.routers.backend.entrypoints=web'
     volumes:
       - ./backend/src:/app/src
+    depends_on:
+      - mongo  # Ensures Mongo starts before the backend
+    networks:
+      - app_network
+
   mongo:
     image: mongo
     ports:
-      - 37017:27017
-    # volumes:
-    #   - ./data:/data/db
-  # load-balancer:
-  #   image: traefik:v2.2
-  #   command:
-  #     - '--api.insecure=true'
-  #     - '--providers.docker=true'
-  #     - '--providers.docker.exposedbydefault=false'
-  #     - '--entrypoints.web.address=:80'
-  #   ports:
-  #     - 80:80
-  #     - 8080:8080
-  #   volumes:
-  #     - '/var/run/docker.sock:/var/run/docker.sock:ro'
+      - 27017:27017
+    restart: unless-stopped
+    networks:
+      - app_network
 
-  whoami:
-    image: traefik/whoami
-    labels:
-      - 'traefik.http.routers.whoami.rule=Host(`whoami.docker.localhost`)'
+  load-balancer:
+    image: traefik:v3.2
+    command:
+      - '--api.insecure=true'
+      - '--providers.docker=true'
+      - '--entrypoints.web.address=:80'
+      - '--providers.docker.exposedbydefault=false'
+    ports:
+      - 80:80
+      - 8080:8080
+    volumes:
+      - '/var/run/docker.sock:/var/run/docker.sock'
+    networks:
+      - app_network
+
+networks:
+  app_network:
+    driver: bridge

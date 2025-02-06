@@ -1,0 +1,81 @@
+// USER REQUESTS:
+// - read
+// - create
+// - delete
+// - update
+
+
+
+GET http://localhost:3001/users/667c61f44cc535ede34e6644 HTTP/1.1
+// get user detail
+
+###
+
+POST http://localhost:3001/users HTTP/1.1
+Content-Type: application/json
+
+{ "name":"Armagan", "handle":"dashersw", "email":"armagan@nimble.dev" }
+// create user
+
+###
+
+DELETE http://localhost:3001/users/66901321a0e61c6a1c59e021 HTTP/1.1
+// delete user
+
+###
+
+PATCH http://localhost:3001/users/66807f3016c5693159f40a69 HTTP/1.1
+Content-Type: application/json
+
+{ "name":"Armagan"}
+// update user
+
+###
+
+
+// TWEET REQUETS:
+// - read
+// - create
+// - delete
+// - update
+
+
+GET http://localhost:3001/tweets/{tweet._id} HTTP/1.1
+// get tweet detail
+
+###
+
+POST http://localhost:3000/api/tweets/dashersw/tweets HTTP/1.1
+Content-Type: application/json
+
+{ "author":"66f17fe7a5198289ed910ca0", "body":"Hi, this is Armagan 2" }
+// create tweet
+
+###
+
+DELETE http://localhost:3001/tweets/668fe868cbcf004a559f6fed HTTP/1.1
+// delete tweet
+
+###
+
+PATCH http://localhost:3001/tweets/667d1d922c2357cc923bdce2 HTTP/1.1
+Content-Type: application/json
+
+{ "body":"tweet updated"}
+// tweet update
+
+###
+
+
+
+// INTERACTION REQUESTS:
+// - following
+
+
+
+POST http://localhost:3001/users/669012fca0e61c6a1c59e01c/following HTTP/1.1
+Content-Type: application/json
+
+{ "user2Id":"66901312a0e61c6a1c59e01f"}
+
+// following

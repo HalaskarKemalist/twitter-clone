@@ -12,14 +12,16 @@
   "dependencies": {
     "@mdi/font": "5.9.55",
     "axios": "^1.7.2",
+    "caniuse-lite": "^1.0.30001695",
     "core-js": "^3.8.3",
+    "emoji-mart-vue-fast": "^15.0.3",
     "lodash.throttle": "^4.1.1",
     "register-service-worker": "^1.7.2",
     "roboto-fontface": "*",
     "socket.io-client": "^4.7.5",
     "vue": "^3.2.13",
     "vue-router": "^4.0.3",
-    "vuetify": "^3.6.14",
+    "vuetify": "^3.7.7",
     "vuex": "^4.0.2",
     "webfontloader": "^1.0.0"
   },

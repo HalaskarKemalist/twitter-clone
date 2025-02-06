@@ -1,12 +1,23 @@
 <script>
 export default {
   name: 'profile-card-component',
+  props: ['user'],
+  computed: {
+    postCount () {
+      return this.user?.tweets?.length || 0
+    },
+    followersCount () {
+      return this.user?.followers?.length || 0
+    },
+    followingCount () {
+      return this.user?.following?.length || 0
+    }
+  },
   data () {
     return {
       loading: false
     }
   },
-  props: ['user'],
   methods: {
     setupProfile () {
       this.$router.push('/setup-profile')
@@ -79,13 +90,13 @@ export default {
             <v-row class="profile-stats">
                 <v-spacer></v-spacer>
                 <v-col cols="auto">
-                    <span class="stat">{{ user.tweets.length }}</span> Posts
+                    <span class="stat">{{ postCount }}</span> Posts
                 </v-col>
                 <v-col cols="auto">
-                    <span class="stat">{{ user.followers.length }}</span> Followers
+                    <span class="stat">{{ followersCount }}</span> Followers
                 </v-col>
                 <v-col cols="auto">
-                    <span class="stat">{{ user.following.length }}</span> Following
+                    <span class="stat">{{ followingCount }}</span> Following
                 </v-col>
             </v-row>
 
